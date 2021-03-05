@@ -1,0 +1,24 @@
+# permissions for end users to edit backuppodsets.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: backuppodset-editor-role
+rules:
+- apiGroups:
+  - backup.example.com
+  resources:
+  - backuppodsets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - backup.example.com
+  resources:
+  - backuppodsets/status
+  verbs:
+  - get

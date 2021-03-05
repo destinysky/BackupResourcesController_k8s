@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: coldbackup
+  labels:
+    app: coldbackup
+spec:
+  hostNetwork: true
+  containers:
+    - name: coldbackup
+      image: destinysky/coldbackup:0.1
