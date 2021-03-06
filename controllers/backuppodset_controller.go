@@ -186,6 +186,22 @@ func (r *BackupPodSetReconciler) Reconcile(ctx context.Context, req ctrl.Request
 			return ctrl.Result{}, err
 		}
 	}
+	annotations := backupPodSet.GetAnnotations()
+	if annotations == nil {
+		annotations = make(map[string]string)
+	}
+	annotations["backup.example.com/replicas"] = strconv.Itoa((int(len(existingPrimaryPodNames)))) + "/" + strconv.Itoa(int(backupPodSet.Spec.Replicas))
+	annotations["backup.example.com/hotbackups"] = strconv.Itoa((int(len(existingHotbackupPodNames)))) + "/" + strconv.Itoa(int(backupPodSet.Spec.HotBackups))
+	annotations["backup.example.com/coldbackups"] = strconv.Itoa((int(len(existingColdbackupPodNames)))) + "/" + strconv.Itoa(int(backupPodSet.Spec.ColdBackups))
+	//if !reflect.DeepEqual(backupPodSet.GetAnnotations(), annotations) {
+	reqLogger.Info("Changing Annotations")
+	backupPodSet.SetAnnotations(annotations)
+	err = r.Client.Update(context.TODO(), backupPodSet)
+	if err != nil {
+		reqLogger.Error(err, "failed to update the BackupPodSetStatus annotations")
+		return ctrl.Result{}, err
+	}
+	//}
 
 	// Init when create a new resource
 
@@ -752,6 +768,22 @@ func updateStatus(r *BackupPodSetReconciler, req ctrl.Request, reqLogger logr.Lo
 			return false, err
 		}
 	}
+	annotations := backupPodSet.GetAnnotations()
+	if annotations == nil {
+		annotations = make(map[string]string)
+	}
+	annotations["backup.example.com/replicas"] = strconv.Itoa((int(len(existingPrimaryPodNames)))) + "/" + strconv.Itoa(int(backupPodSet.Spec.Replicas))
+	annotations["backup.example.com/hotbackups"] = strconv.Itoa((int(len(existingHotbackupPodNames)))) + "/" + strconv.Itoa(int(backupPodSet.Spec.HotBackups))
+	annotations["backup.example.com/coldbackups"] = strconv.Itoa((int(len(existingColdbackupPodNames)))) + "/" + strconv.Itoa(int(backupPodSet.Spec.ColdBackups))
+	//if !reflect.DeepEqual(backupPodSet.GetAnnotations(), annotations) {
+	reqLogger.Info("Changing Annotations")
+	backupPodSet.SetAnnotations(annotations)
+	err = r.Client.Update(context.TODO(), backupPodSet)
+	if err != nil {
+		reqLogger.Error(err, "failed to update the BackupPodSetStatus annotations")
+		return false, err
+	}
+	//}
 	return true, nil
 }
 

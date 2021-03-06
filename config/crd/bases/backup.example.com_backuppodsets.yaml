@@ -14,9 +14,57 @@ spec:
     listKind: BackupPodSetList
     plural: backuppodsets
     singular: backuppodset
+    shortNames: 
+    - bps
+    categories:
+    - all
   scope: Namespaced
   versions:
   - name: v1alpha1
+    additionalPrinterColumns:
+    - name: Namespace
+      type: string
+      jsonPath: .metadata.namespace
+      priority: 0
+    #- name: Running Replicas
+    #  type: integer
+    #  description: The number of running primary pods
+    #  jsonPath: .status.replicas
+    #- name: Running Hotbackups
+    #  type: integer
+    #  description: The number of running hotbackup pods
+    #  jsonPath: .status.hotbackups
+    #- name: Running Coldbackups
+    #  type: integer
+    #  description: The number of running coldbackup pods
+    #  jsonPath: .status.coldbackups
+    #- name: Desired Replicas
+    #  type: integer
+    #  description: The number of desired primary pods
+    #  jsonPath: .spec.replicas
+    #- name: Desired Hotbackups
+    #  type: integer
+    #  description: The number of desired hotbackup pods
+    #  jsonPath: .spec.hotBackups
+    #- name: Desired Coldbackups
+    #  type: integer
+    #  description: The number of desired coldbackup pods
+    #  jsonPath: .spec.coldBackups
+    - name: Replicas
+      type: string
+      description: The number of running primary pods / The number of desired primary pods
+      jsonPath: .metadata.annotations.backup\.example\.com\/replicas
+    - name: hotbackups
+      type: string
+      description: The number of running hotbackup pods / The number of desired hotbackup pods
+      jsonPath: .metadata.annotations.backup\.example\.com\/hotbackups
+    - name: coldbackups
+      type: string
+      description: The number of running coldbackup pods / The number of desired coldbackup pods
+      jsonPath: .metadata.annotations.backup\.example\.com\/coldbackups
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp
     schema:
       openAPIV3Schema:
         description: BackupPodSet is the Schema for the backuppodsets API
