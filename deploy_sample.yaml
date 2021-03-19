@@ -1,7 +1,7 @@
 apiVersion: backup.example.com/v1alpha1
 kind: BackupPodSet
 metadata:
-  name: backuppodsetsample
+  name: bps-sample
 spec:
   replicas: 2
   hotBackups: 2

@@ -791,5 +791,6 @@ func updateStatus(r *BackupPodSetReconciler, req ctrl.Request, reqLogger logr.Lo
 func (r *BackupPodSetReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&backupv1alpha1.BackupPodSet{}).
+		Owns(&corev1.Pod{}).
 		Complete(r)
 }
